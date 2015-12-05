@@ -1,0 +1,20 @@
+ls
+ls -la
+make -j1 build/test/layers/avp.pass.xml
+make -j1 build/test/layers/avp.pass.xml
+make -j1 build/test/layers/avp.pass.xml
+make -j1 build/test/layers/avp.pass.xml
+cd
+cd l
+cd layers/
+make -j1 build/test/layers/avp.pass.xml
+git status
+ls
+ls
+make -j1 build/test/layers/avp.pass.xml
+cd
+cd l
+cd layers/
+git status
+cd '/opt/home/telfer/l/layers/'
+ls
