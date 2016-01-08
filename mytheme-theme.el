@@ -73,6 +73,7 @@
  ;; '(font-lock-variable-name-face ((((class color) (min-colors 257)) (:foreground "#FD971F")) (((class color) (min-colors 89)) (:foreground "#FF8C00"))))
  '(font-lock-warning-face ((((class color) (min-colors 257)) (:foreground "#FD971F" :weight bold :italic t :underline t)) (((class color) (min-colors 89)) (:foreground "#FF8C00" :weight bold :italic t :underline t))))
  '(c-annotation-face ((((class color) (min-colors 257)) (:inherit font-lock-constant-face)) (((class color) (min-colors 89)) (:inherit font-lock-constant-face))))
+
  '(company-tooltip ((((class color) (min-colors 257)) (:background "#49483E" :foreground "#A1EFE4")) (((class color) (min-colors 89)) (:background "#303030" :foreground "#5FFFFF"))))
  '(company-tooltip-selection ((((class color) (min-colors 257)) (:background "#349B8D" :foreground "#BBF7EF")) (((class color) (min-colors 89)) (:background "#BBF7EF" :foreground "#349B8D"))))
  '(company-tooltip-mouse ((((class color) (min-colors 257)) (:background "#BBF7EF" :foreground "#349B8D")) (((class color) (min-colors 89)) (:background "#349B8D" :foreground "#BBF7EF"))))
@@ -82,6 +83,8 @@
  '(company-preview-common ((((class color) (min-colors 257)) (:foreground "#F8F8F0" :underline t)) (((class color) (min-colors 89)) (:foreground "#FFFAFA" :underline t))))
  '(company-scrollbar-bg ((((class color) (min-colors 257)) (:background "#6b6b6b")) (((class color) (min-colors 89)) (:background "#6c6c6c"))))
  '(company-scrollbar-fg ((((class color) (min-colors 257)) (:background "#968B26")) (((class color) (min-colors 89)) (:background "#968B26"))))
+
+
  '(custom-face-tag ((((class color) (min-colors 257)) (:inherit variable-pitch :height 1.2 :foreground "#AE81FF" :weight bold)) (((class color) (min-colors 89)) (:inherit variable-pitch :height 1.2 :foreground "#AF87FF" :weight bold))))
  '(custom-variable-tag ((((class color) (min-colors 257)) (:inherit variable-pitch :foreground "#A1EFE4" :height 1.2)) (((class color) (min-colors 89)) (:inherit variable-pitch :foreground "#5FFFFF" :height 1.2))))
  '(custom-comment-tag ((((class color) (min-colors 257)) (:foreground "#75715E")) (((class color) (min-colors 89)) (:foreground "#8B8878"))))
