@@ -576,10 +576,6 @@
 (setq eshell-review-quick-commands nil)
 (setq eshell-smart-space-goes-to-end t)
 
-;;(require 'bookmark+)
-;;(require 'desktop)
-(require 'desktop+)
-
 ;;(desktop-save-mode 1)
 
 (defun my-compile ()
