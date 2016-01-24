@@ -7,7 +7,6 @@
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (require 'indent-file)
 (require 'saveplace)
-
 (require 'rtags-echo)
 
 (add-hook 'window-setup-hook
@@ -29,13 +28,11 @@
 	      (defun track-mouse (e))
 	      (setq mouse-sel-mode t)
 	      (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
-	      (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+	      (setq mouse-wheel-progressive-speed nil)		  ;; don't accelerate scrolling
 	      (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
-	      (setq scroll-step 1) ;; keyboard scroll one line at a tim
+	      (setq scroll-step 1)		 ;; keyboard scroll one line at a tim
 					;  (tool-bar-mode -1)
-	      (menu-bar-mode -1)
-	      )
-	    ))
+	      (menu-bar-mode -1))))
 
 (add-hook 'after-init-hook
 	  (lambda()
@@ -76,8 +73,6 @@
 (global-set-key (kbd "M-%") 'query-replace-regexp)
 ;; (global-set-key (kbd "M-s") 'multi-occur-in-this-mode)
 
-
-
 (global-set-key (kbd "C-c C-f") 'helm-projectile-find-file)
 (global-set-key (kbd "C-c C-g") 'helm-projectile-grep)
 (global-set-key "\C-\M-i" 'helm-projectile-find-other-file)
@@ -85,7 +80,6 @@
 ;; (global-set-key (kbd "C-\\")'rtags-find-symbol-at-point)
 
 (require 'yasnippet)
-;(yas-global-mode 1)
 (yas-reload-all)
 (add-hook 'prog-mode-hook #'yas-minor-mode)
 
@@ -125,8 +119,6 @@
       helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
       helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
       helm-ff-file-name-history-use-recentf t)
-
-
 
 (add-hook 'prog-mode-hook
 	  (lambda()
@@ -170,11 +162,7 @@
 
 	    (setq company-frontends '(company-pseudo-tooltip-unless-just-one-frontend company-preview-if-just-one-frontend company-echo-metadata-frontend company-preview-frontend))
 	    
-	    (setq yas-indent-line 'fixed)
-	    )
-	  )
-
-
+	    (setq yas-indent-line 'fixed)))
 
 (add-hook 'c++-mode-hook
 	  '(lambda()
@@ -461,60 +449,7 @@
  '(weechat-color-list
    (unspecified "#272822" "#49483E" "#A20C41" "#F92672" "#67930F" "#A6E22E" "#968B26" "#E6DB74" "#21889B" "#66D9EF" "#A41F99" "#FD5FF0" "#349B8D" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
 
-
-
 (load-theme 'mytheme)
-
-;; (eval-after-load "cc-mode"
-;;   '(define-key c-mode-base-map ";" nil))
-
-
-;; (custom-set-faces
-;;  ;; custom-set-faces was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(font-lock-constant-face ((t (:foreground "dark red" :weight ultra-bold))))
-;;  '(font-lock-doc-face ((t (:foreground "dark gray"))))
-;;  '(font-lock-function-name-face ((t (:foreground "gray0" :slant italic :weight bold))))
-;;  '(font-lock-keyword-face ((t (:foreground "Purple" :weight bold))))
-;;  '(font-lock-type-face ((t (:foreground "#6434A3" :slant italic :weight normal))))
-;;  '(font-lock-variable-name-face ((t (:foreground "dark cyan" :weight normal)))))
-
-;; (custom-set-faces
-;;  ;; custom-set-faces was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(font-lock-doc-face ((t (:foreground "#8D8D84" :slant italic))))
-;;  '(font-lock-function-name-face ((t (:foreground "Black" :weight bold))))
-;;  '(font-lock-keyword-face ((t (:foreground "blue3" :weight normal))))
-;;  '(font-lock-preprocessor-face ((t (:foreground "#808080" :weight bold))))
-;;  '(font-lock-string-face ((t (:foreground "dark slate gray"))))
-;;  '(font-lock-type-face ((t (:foreground "sea green" :slant italic :weight normal))))
-;;  '(font-lock-variable-name-face ((t (:background "light gray" :foreground "Black" :box (:line-width 1 :color "grey50") :weight normal)))))
-;; (custom-set-faces
-;;  ;; custom-set-faces was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(company-tooltip-annotation ((t (:background "#303030" :foreground "#999999"))))
-;;  '(company-tooltip-selection ((t (:background "#BBF7EF" :foreground "#333333")))))
-
-
-
-
-;; (add-to-list 'load-path "~/rtags/src")
-;; (require 'rtags)
-;; (require 'company-rtags)
-;; (setq rtags-autostart-diagnostics nil)
-
-
-
-
-;; (require 'org-sync)
-;; (require 'org-sync-github)
-
 
 (require 'helm-descbinds)
 (helm-descbinds-mode)
@@ -556,16 +491,6 @@ enter missing field manually."
         (back-to-indentation)
         (yas-expand-snippet snippet (point) (point) nil)))))
 
-
-
-
-
-
-
-
-
-
-
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -579,8 +504,6 @@ enter missing field manually."
  '(company-tooltip-selection ((t (:inherit company-tooltip :background "color-51" :foreground ":inherit" :weight bold)))))
 
 
-;; (require 'eshell)
-;; (require 'em-smart)
 (setq eshell-where-to-jump 'begin)
 (setq eshell-review-quick-commands nil)
 (setq eshell-smart-space-goes-to-end t)
@@ -588,6 +511,7 @@ enter missing field manually."
 (setq desktop-restore-frames t)
 (setq desktop-restore-in-current-display t)
 (setq desktop-restore-forces-onscreen nil)
+
 (require 'workspace)
 
 (defun my-compile ()
