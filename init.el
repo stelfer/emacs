@@ -85,7 +85,9 @@
 ;; (global-set-key (kbd "C-\\")'rtags-find-symbol-at-point)
 
 (require 'yasnippet)
-(yas-global-mode 1)
+;(yas-global-mode 1)
+(yas-reload-all)
+(add-hook 'prog-mode-hook #'yas-minor-mode)
 
 (setq ad-redefinition-action 'accept)
 (require 'helm)
