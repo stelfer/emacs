@@ -583,6 +583,7 @@
 (setq desktop-restore-frames t)
 (setq desktop-restore-in-current-display t)
 (setq desktop-restore-forces-onscreen nil)
+(require 'workspace)
 
 (defun my-compile ()
   (interactive)
