@@ -46,7 +46,7 @@
 ;; (defvar workspace-stash-sha nil)
 (defvar workspace-helpful-hello "HI")
 
-(defvar workspace-extra-vars '(workspace-helpful-hello workspace-current-project workspace-current-tag))
+(defvar workspace-extra-vars '(workspace-helpful-hello workspace-current-project workspace-current-tag compile-history))
 
 ;;;###autoload
 (with-eval-after-load "desktop"
