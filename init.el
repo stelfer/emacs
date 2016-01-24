@@ -512,8 +512,8 @@
 
 
 
-(require 'org-sync)
-(require 'org-sync-github)
+;; (require 'org-sync)
+;; (require 'org-sync-github)
 
 
 (require 'helm-descbinds)
@@ -521,7 +521,9 @@
 
 
 (defun my-rtags-create-doxygen-comment ()
-  "Creates doxygen comment for function at point Comment will be inserted before current line. It uses yasnippet to let the user enter missing field manually."
+  "Creates doxygen comment for function at point Comment will be
+inserted before current line. It uses yasnippet to let the user
+enter missing field manually."
   (interactive)
   (when (or (not (rtags-called-interactively-p)) (rtags-sandbox-id-matches))
     (save-some-buffers) ;; it all kinda falls apart when buffers are unsaved
@@ -577,8 +579,8 @@
  '(company-tooltip-selection ((t (:inherit company-tooltip :background "color-51" :foreground ":inherit" :weight bold)))))
 
 
-(require 'eshell)
-(require 'em-smart)
+;; (require 'eshell)
+;; (require 'em-smart)
 (setq eshell-where-to-jump 'begin)
 (setq eshell-review-quick-commands nil)
 (setq eshell-smart-space-goes-to-end t)
@@ -592,14 +594,7 @@
   (interactive)
   (save-window-excursion
     (let ((command (completing-read "Compile: " compile-history nil nil nil)))
-      (compile command)
-      ))
-  
-  
-  
-
-  )
-
+      (compile command))))
 
 (add-hook 'compilation-start-hook
 	  (lambda (process)
