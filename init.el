@@ -100,6 +100,16 @@
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
 
+;;
+;; Make a custom projectile modeline
+(defface projectile-mode-line-face '((t (:foreground "#ff1493" :weight normal)))  "Red highlight")
+(setq projectile-mode-line
+      '(:propertize 
+	(:eval
+      	(if (file-remote-p default-directory)
+      	    " P"
+      	  (format " [%s]" (projectile-project-name)))) face projectile-mode-line-face))
+
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
 ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
