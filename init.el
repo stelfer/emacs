@@ -527,83 +527,17 @@ enter missing field manually."
 	      (add-to-history 'compile-history command)
 	      (setq history-delete-duplicates delete-duplicates-save))))
 
-;; (add-hook 'compilation-start-hook
-;; 	  (lambda (process)
-;; 	    ;; (setq compile-window-config (current-window-configuration))
-;; 	    ))
-
 (setq compilation-scroll-output 'first-error)
 
 (add-to-list 'compilation-finish-functions
 	     (lambda (buf str)
 	       (if (string-match "exited abnormally" str)
-		   
-		   ;;there were errors
 		   (message "compilation errors, press C-x ` to visit")
-		 
-		 ;;no errors, make the compilation window go away in 0.5 seconds
-		 (run-at-time 0.5 nil (lambda (x)
-					;; (delete-windows-on x)
-					(kill-buffer x))buf)
-		 (message "NO COMPILATION ERRORS!"))
-	       ;; (set-window-configuration compile-window-config)
-	       ))
+		 (run-at-time 0.5 nil
+			      (lambda (x)
+				(kill-buffer x))buf)
+		 (message "NO COMPILATION ERRORS!"))))
 
+(require 'make)
 
-
-(defun make-project ()
-  (interactive)
-  (let* ((args (cond
-	       ((projectile-project-p) (concat "-C " (projectile-project-root)))
-	       (t "")))
-	 (command (concat "make " args))
-	 )
-    (compile command)
-    ))
-
-
-(defun make-target-from-current ()
-  (interactive)
-  (let ((hint make-target-use-current-buffer-as-hint))
-    (setq make-target-use-current-buffer-as-hint t)
-    (call-interactively 'make-target)
-    (setq make-target-use-current-buffer-as-hint hint)
-    ))
-
-(defvar make-target-use-current-buffer-as-hint nil)
-
-
-
-(defun make-target-dir-args ()
-  (if (projectile-project-p)
-      (concat " -C " (projectile-project-root))
-    (error "Not a project")))
-
-(defun make-get-target ()
-  (let ((target-exclude-regexp "\\(^\\.\\)\\|[\\$\\%]")
-	(initial (if make-target-use-current-buffer-as-hint
-		     (file-name-sans-extension (buffer-name)) nil)))
-    (save-window-excursion
-      (with-output-to-temp-buffer "*make-targets*"
-	(let* ((make-dir-args (make-target-dir-args))
-	       (command (concat "make -p" make-dir-args)))
-	  (shell-command command "*make-targets*")
-	  (pop-to-buffer "*make-targets*")
-	  (goto-char (point-max))
-	  (let ((targets nil))
-	    (while (re-search-backward "^\\(build/[^:\n#[:space:]]+?\\):"
-				       (not 'bound) 'noerror)
-	      (unless (string-match target-exclude-regexp
-				    (match-string 1))
-		(setq targets (cons (match-string 1) targets))))
-	    (delete-windows-on "*make-targets*")
-	    ;; (setq target (completing-read "target: " targets nil nil initial)))))))
-	    (completing-read "target: " targets nil nil initial)))))))
-
-
-(defun make-target (&optional target)
-  (interactive (list (make-get-target)))
-  (message "%s" target)
-  (let ((command (concat "make" (make-target-dir-args) " " target)))
-    (compile command)))
       
