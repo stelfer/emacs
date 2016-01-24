@@ -87,6 +87,7 @@
 (require 'yasnippet)
 (yas-global-mode 1)
 
+(setq ad-redefinition-action 'accept)
 (require 'helm)
 (require 'helm-config)
 (helm-mode 1)
