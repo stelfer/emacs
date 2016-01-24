@@ -10,12 +10,6 @@
 
 (require 'rtags-echo)
 
-;; (savehist-mode 1)
-;; (setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
-;; (setq savehist-file "~/.emacs.d/savehist")
-
-
-
 (add-hook 'window-setup-hook
 	  (lambda()
 	    ;; Blank the terminal background, so themes will work nicely
@@ -586,7 +580,9 @@
 (setq eshell-review-quick-commands nil)
 (setq eshell-smart-space-goes-to-end t)
 
-;;(desktop-save-mode 1)
+(setq desktop-restore-frames t)
+(setq desktop-restore-in-current-display t)
+(setq desktop-restore-forces-onscreen nil)
 
 (defun my-compile ()
   (interactive)
