@@ -120,9 +120,30 @@
       helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
       helm-ff-file-name-history-use-recentf t)
 
+
+;;
+;; Custom keymaps
+;;
+(define-prefix-command 'my-prog-mode-map)
+(define-key my-prog-mode-map (kbd "g") 'magit-status)
+
+(define-prefix-command 'my-c-mode-map)
+(define-key my-c-mode-map (kbd "g") 'magit-status)
+(define-key my-c-mode-map (kbd "C-c") 'my-compile)
+(define-key my-c-mode-map (kbd "m") 'make-target-from-current)
+(define-key my-c-mode-map (kbd "C-s") 'rtags-imenu)
+(define-key my-c-mode-map (kbd "C-r") 'rtags-rename-symbol)
+(define-key my-c-mode-map (kbd "s") 'rtags-find-symbol)
+(define-key my-c-mode-map (kbd "d") 'my-rtags-create-doxygen-comment)
+(define-key my-c-mode-map (kbd "C-i r") 'rtags-find-references-at-point)
+(define-key my-c-mode-map (kbd "C-i h") 'rtags-print-class-hierarchy)
+(define-key my-c-mode-map (kbd "C-i i") 'rtags-symbol-info)
+(define-key my-c-mode-map (kbd "C-i t") 'rtags-symbol-type)
+(define-key my-c-mode-map (kbd "C-i d") 'rtags-dependency-tree)
+
 (add-hook 'prog-mode-hook
 	  (lambda()
-	    (global-set-key "\C-cm" 'magit-status)))
+	    (local-set-key (kbd "C-c") 'my-prog-mode-map)))
 
 ;; Treat .h as c++ by default
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
@@ -133,26 +154,15 @@
 	    (c-toggle-hungry-state 1)
 	    (electric-pair-mode 1)
 	    (auto-fill-mode 1)
+
+	    (local-set-key (kbd "C-c") 'my-c-mode-map)
 	    (local-set-key "\C-\M-i" 'helm-projectile-find-other-file)
-	    ;; (local-set-key "\C-c\C-c" 'my-compile)
-	    (local-set-key (kbd "C-c C-c") 'my-compile)
-	    (local-set-key (kbd "C-c R") 'rtags-find-references-at-point)
-	    (local-set-key (kbd "C-c c") 'rtags-print-class-hierarchy)
-	    (local-set-key (kbd "C-c C-s") 'rtags-find-symbol)
-	    (local-set-key (kbd "C-c i") 'rtags-symbol-info)
-	    (local-set-key (kbd "C-c t") 'rtags-symbol-type)
-	    (local-set-key (kbd "C-c C-r") 'rtags-rename-symbol)
-	    
 	    (local-set-key (kbd "M-.") 'rtags-find-symbol-at-point)
 	    (local-set-key (kbd "M-,") 'rtags-location-stack-back)
 	    (local-set-key (kbd "M-/") 'rtags-location-stack-forward)
-	    (local-set-key (kbd "C-c f") 'rtags-imenu)
-	    (local-set-key (kbd "C-c d") 'my-rtags-create-doxygen-comment)
-	    (local-set-key (kbd "C-c T") 'rtags-dependency-tree)
-
-	    (highlight-symbol-mode 1)
-	    ;; (local-set-key (kbd "C-c o") 'helm-projectile-find-other-file)
 	    (local-set-key (quote [f5]) 'recompile)
+	    
+	    (highlight-symbol-mode 1)
 	    (add-to-list 'c-doc-comment-style '(c++-mode . javadoc))
 	    (setq rtags-autostart-diagnostics t)
 	    (rtags-diagnostics)
