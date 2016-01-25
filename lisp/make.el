@@ -20,7 +20,7 @@
 
 (defun make-target-dir-args ()
   (if (projectile-project-p)
-      (concat " -C " (projectile-project-root))
+      (concat " -j" " -C " (projectile-project-root))
     (error "Not a project")))
 
 (defun make-get-target ()
