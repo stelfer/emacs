@@ -74,13 +74,14 @@
  '(font-lock-warning-face ((((class color) (min-colors 257)) (:foreground "#FD971F" :weight bold :italic t :underline t)) (((class color) (min-colors 89)) (:foreground "#FF8C00" :weight bold :italic t :underline t))))
  '(c-annotation-face ((((class color) (min-colors 257)) (:inherit font-lock-constant-face)) (((class color) (min-colors 89)) (:inherit font-lock-constant-face))))
 
- '(company-tooltip ((((class color) (min-colors 257)) (:background "#49483E" :foreground "#A1EFE4")) (((class color) (min-colors 89)) (:background "#303030" :foreground "#5FFFFF"))))
- '(company-tooltip-selection ((((class color) (min-colors 257)) (:background "#349B8D" :foreground "#BBF7EF")) (((class color) (min-colors 89)) (:background "#BBF7EF" :foreground "#349B8D"))))
+ '(company-tooltip ((t (:background "#dddddd" :foreground ":inherit" :weight normal))))
+ '(company-tooltip-selection ((t (:inherit company-tooltip :background "color-51" :foreground ":inherit" :weight bold))))
+ '(company-tooltip-annotation ((t (:inherit company-tooltip :foreground "color-27" :weight normal))))
  '(company-tooltip-mouse ((((class color) (min-colors 257)) (:background "#BBF7EF" :foreground "#349B8D")) (((class color) (min-colors 89)) (:background "#349B8D" :foreground "#BBF7EF"))))
- '(company-tooltip-common ((((class color) (min-colors 257)) (:foreground "#F8F8F0" :underline t)) (((class color) (min-colors 89)) (:foreground "#FFFAFA" :underline t))))
- '(company-tooltip-common-selection ((((class color) (min-colors 257)) (:foreground "#F8F8F0" :underline t)) (((class color) (min-colors 89)) (:foreground "#FFFAFA" :underline t))))
- '(company-preview ((((class color) (min-colors 257)) (:background "#49483E" :foreground "#A1EFE4")) (((class color) (min-colors 89)) (:background "#303030" :foreground "#5FFFFF"))))
- '(company-preview-common ((((class color) (min-colors 257)) (:foreground "#F8F8F0" :underline t)) (((class color) (min-colors 89)) (:foreground "#FFFAFA" :underline t))))
+ '(company-tooltip-common ((t (:inherit company-tooltip :foreground ":inherit" :underline t :weight normal))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :foreground ":inherit" :underline t :weight bold))))
+ '(company-preview ((t (:background ":inherit" :foreground ":inherit" :underline t))))
+ '(company-preview-common ((t (:background ":inherit" :foreground ":inherit" :underline t))))
  '(company-scrollbar-bg ((((class color) (min-colors 257)) (:background "#6b6b6b")) (((class color) (min-colors 89)) (:background "#6c6c6c"))))
  '(company-scrollbar-fg ((((class color) (min-colors 257)) (:background "#968B26")) (((class color) (min-colors 89)) (:background "#968B26"))))
 
@@ -148,6 +149,7 @@
  '(speedbar-tag-face ((((class color) (min-colors 257)) (:inherit variable-pitch :foreground "#A6E22E")) (((class color) (min-colors 89)) (:inherit variable-pitch :foreground "#87D700"))))
  '(tooltip ((((class color) (min-colors 257)) (:background "#968B26" :foreground "#F3EA98" :inherit variable-pitch))))
  '(which-func ((((class color) (min-colors 257)) (:foreground "#A6E22E")) (((class color) (min-colors 89)) (:foreground "#87D700"))))
+ '(rtags-skippedline ((t (:background "#cccccc"))))
  '(default ((t (:foreground "Black"))))
  )
 

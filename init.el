@@ -501,18 +501,6 @@ enter missing field manually."
         (back-to-indentation)
         (yas-expand-snippet snippet (point) (point) nil)))))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(company-preview ((t (:background ":inherit" :foreground ":inherit" :underline t))))
- '(company-preview-common ((t (:background ":inherit" :foreground ":inherit" :underline t))))
- '(company-tooltip ((t (:background "#dddddd" :foreground ":inherit" :weight normal))))
- '(company-tooltip-common ((t (:inherit company-tooltip :foreground ":inherit" :underline t :weight normal))))
- '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :foreground ":inherit" :underline t :weight bold))))
- '(company-tooltip-selection ((t (:inherit company-tooltip :background "color-51" :foreground ":inherit" :weight bold)))))
-
 
 (setq eshell-where-to-jump 'begin)
 (setq eshell-review-quick-commands nil)
