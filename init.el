@@ -551,3 +551,6 @@ enter missing field manually."
 (require 'make)
 
       
+(defun rtags-load-database (dir)
+  (rtags-call-rc "-J" dir))
+
