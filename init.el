@@ -128,8 +128,8 @@
 
 (define-prefix-command 'my-c-mode-map)
 (define-key my-c-mode-map (kbd "g") 'magit-status)
-(define-key my-c-mode-map (kbd "C-c") 'my-compile)
-(define-key my-c-mode-map (kbd "m") 'make-target-from-current)
+(define-key my-c-mode-map (kbd "C-c") 'build)
+(define-key my-c-mode-map (kbd "m") 'build-target-from-current)
 (define-key my-c-mode-map (kbd "C-s") 'rtags-imenu)
 (define-key my-c-mode-map (kbd "C-r") 'rtags-rename-symbol)
 (define-key my-c-mode-map (kbd "s") 'rtags-find-symbol)
@@ -537,6 +537,7 @@ enter missing field manually."
 		 (message "NO COMPILATION ERRORS!"))))
 
 (require 'make)
+(require 'build)
 
       
 (defun rtags-load-database (dir)

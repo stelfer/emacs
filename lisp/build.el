@@ -1,7 +1,9 @@
 
 (require 'projectile)
 
-(defun make-project ()
+(defvar build-target-use-current-buffer-as-hint nil)
+
+(defun build-project ()
   (interactive)
   (let* ((args (cond
 	       ((projectile-project-p) (concat "-C " (projectile-project-root)))
@@ -9,30 +11,28 @@
 	 (command (concat "make " args)))
     (compile command)))
 
-(defun make-target-from-current ()
+(defun build-target-from-current ()
   (interactive)
-  (let ((hint make-target-use-current-buffer-as-hint))
-    (setq make-target-use-current-buffer-as-hint t)
-    (call-interactively 'make-target)
-    (setq make-target-use-current-buffer-as-hint hint)))
+  (let ((hint build-target-use-current-buffer-as-hint))
+    (setq build-target-use-current-buffer-as-hint t)
+    (call-interactively 'build-target)
+    (setq build-target-use-current-buffer-as-hint hint)))
 
-(defvar make-target-use-current-buffer-as-hint nil)
-
-(defun make-target-dir-args ()
+(defun build-target-dir-args ()
   (if (projectile-project-p)
       (concat " -j" " -C " (projectile-project-root))
     (error "Not a project")))
 
-(defun make-get-target ()
+(defun build-get-target ()
   (let ((target-exclude-regexp "\\(^\\.\\)\\|[\\$\\%]")
-	(initial (if make-target-use-current-buffer-as-hint
+	(initial (if build-target-use-current-buffer-as-hint
 		     (file-name-sans-extension (buffer-name)) nil)))
     (save-window-excursion
-      (with-output-to-temp-buffer "*make-targets*"
-	(let* ((make-dir-args (make-target-dir-args))
-	       (command (concat "make -np" make-dir-args)))
-	  (shell-command command "*make-targets*")
-	  (pop-to-buffer "*make-targets*")
+      (with-output-to-temp-buffer "*build-targets*"
+	(let* ((build-dir-args (build-target-dir-args))
+	       (command (concat "make -np" build-dir-args)))
+	  (shell-command command "*build-targets*")
+	  (pop-to-buffer "*build-targets*")
 	  (goto-char (point-max))
 	  (let ((targets nil))
 	    (while (re-search-backward "^\\(build/[^:\n#[:space:]]+?\\):"
@@ -40,15 +40,15 @@
 	      (unless (string-match target-exclude-regexp
 				    (match-string 1))
 		(setq targets (cons (match-string 1) targets))))
-	    (delete-windows-on "*make-targets*")
+	    (delete-windows-on "*build-targets*")
 	    ;; (setq target (completing-read "target: " targets nil nil initial)))))))
 	    (completing-read "target: " targets nil nil initial)))))))
 
-(defun make-target (&optional target)
-  (interactive (list (make-get-target)))
+(defun build-target (&optional target)
+  (interactive (list (build-get-target)))
   (save-window-excursion
     (message "%s" target)
-    (let ((command (concat "make" (make-target-dir-args) " " target)))
+    (let ((command (concat "make" (build-target-dir-args) " " target)))
       (compile command))))
 
-(provide 'make)
+(provide 'build)
