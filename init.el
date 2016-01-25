@@ -37,7 +37,6 @@
 (add-hook 'after-init-hook
 	  (lambda()
 	    (global-company-mode t)
-	    (global-linum-mode 1)
 	    (global-font-lock-mode t)))
 
 
@@ -143,6 +142,7 @@
 
 (add-hook 'prog-mode-hook
 	  (lambda()
+	    (linum-mode t)
 	    (local-set-key (kbd "C-c") 'my-prog-mode-map)))
 
 ;; Treat .h as c++ by default
