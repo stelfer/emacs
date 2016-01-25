@@ -61,7 +61,7 @@
       indent-tabs-mode nil
       comment-auto-fill-only-comments t
       font-lock-maximum-decoration t
-      company-idle-delay 0
+      company-idle-delay 0.5
       company-minimum-prefix-length 1)
 
 (global-set-key (kbd "s-{") 'previous-buffer)
