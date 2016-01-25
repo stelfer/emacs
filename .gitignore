@@ -12,4 +12,5 @@ places
 projectile-bookmarks.eld
 .desktops
 **/*.elc
+eshell/
 
