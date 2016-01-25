@@ -46,8 +46,9 @@
 
 (defun make-target (&optional target)
   (interactive (list (make-get-target)))
-  (message "%s" target)
-  (let ((command (concat "make" (make-target-dir-args) " " target)))
-    (compile command)))
+  (save-window-excursion
+    (message "%s" target)
+    (let ((command (concat "make" (make-target-dir-args) " " target)))
+      (compile command))))
 
 (provide 'make)
