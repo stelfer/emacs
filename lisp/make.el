@@ -30,7 +30,7 @@
     (save-window-excursion
       (with-output-to-temp-buffer "*make-targets*"
 	(let* ((make-dir-args (make-target-dir-args))
-	       (command (concat "make -p" make-dir-args)))
+	       (command (concat "make -np" make-dir-args)))
 	  (shell-command command "*make-targets*")
 	  (pop-to-buffer "*make-targets*")
 	  (goto-char (point-max))
