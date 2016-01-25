@@ -19,7 +19,7 @@
  '(highlight ((((class color) (min-colors 257)) (:background "#49483E")) (((class color) (min-colors 89)) (:background "#303030"))))
  '(link ((((class color) (min-colors 257)) (:foreground "#66D9EF" :underline t :weight bold)) (((class color) (min-colors 89)) (:foreground "#5FD7FF" :underline t :weight bold))))
  '(link-visited ((((class color) (min-colors 257)) (:foreground "#66D9EF" :underline t :weight normal)) (((class color) (min-colors 89)) (:foreground "#5FD7FF" :underline t :weight normal))))
- '(success ((((class color) (min-colors 257)) (:foreground "#A6E22E")) (((class color) (min-colors 89)) (:foreground "#87D700"))))
+ '(success ((t (:foreground "color-34"))))
  '(warning ((((class color) (min-colors 257)) (:foreground "#E6DB74")) (((class color) (min-colors 89)) (:foreground "#CDC673"))))
  '(error ((((class color) (min-colors 257)) (:foreground "#FD971F")) (((class color) (min-colors 89)) (:foreground "#FF8C00"))))
  '(lazy-highlight ((((class color) (min-colors 257)) (:foreground "#272822" :background "#E6DB74" :weight normal)) (((class color) (min-colors 89)) (:foreground "#1B1E1C" :background "#CDC673" :weight normal))))
