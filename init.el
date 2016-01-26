@@ -1,9 +1,17 @@
+;;
+;; 
+;;
+;;
 
+(menu-bar-mode -1) ;; keep the bar from showing up ever
 
-(require 'package) ;; You might already have this line
+(require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
 
+;;;;
+;;;; Modules and configuration
+;;;;
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (require 'indent-file)
 (require 'saveplace)
@@ -70,8 +78,9 @@
       desktop-restore-in-current-display t
       desktop-restore-forces-onscreen nil)
 
-;;
-;; Make a custom projectile modeline
+;;;;
+;;;; Custome modelines
+;;;;
 (defface projectile-mode-line-face '((t (:foreground "#ff1493" :weight normal)))  "Red highlight")
 (setq projectile-mode-line
       '(:propertize 
@@ -81,9 +90,9 @@
       	  (format " [%s]" (projectile-project-name)))) face projectile-mode-line-face))
 
 
-;;
-;; Custom keymaps
-;;
+;;;;
+;;;; Custom keymaps
+;;;;
 (global-set-key (kbd "s-{") 'previous-buffer)
 (global-set-key (kbd "s-}") 'next-buffer)
 (global-set-key (kbd "s-<") 'beginning-of-buffer)
@@ -105,10 +114,11 @@
 (global-set-key (kbd "C-c h") 'helm-command-prefix)
 (global-unset-key (kbd "C-x c"))
 
-
+;; prog-mode
 (define-prefix-command 'my-prog-mode-map)
 (define-key my-prog-mode-map (kbd "g") 'magit-status)
 
+;; c-mode
 (define-prefix-command 'my-c-mode-map)
 (define-key my-c-mode-map (kbd "g") 'magit-status)
 (define-key my-c-mode-map (kbd "C-c") 'build)
@@ -123,8 +133,9 @@
 (define-key my-c-mode-map (kbd "C-i t") 'rtags-symbol-type)
 (define-key my-c-mode-map (kbd "C-i d") 'rtags-dependency-tree)
 
-
-;; Big hooks
+;;;;
+;;;; Hooks
+;;;;
 (add-hook 'window-setup-hook
 	  (lambda()
 	    ;; Blank the terminal background, so themes will work nicely
@@ -147,8 +158,9 @@
 	      (setq mouse-wheel-progressive-speed nil)		  ;; don't accelerate scrolling
 	      (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 	      (setq scroll-step 1)		 ;; keyboard scroll one line at a tim
-					;  (tool-bar-mode -1)
+	      (tool-bar-mode -1)
 	      (menu-bar-mode -1))))
+
 
 (add-hook 'after-init-hook
 	  (lambda()
