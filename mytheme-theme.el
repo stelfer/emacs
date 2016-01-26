@@ -4,6 +4,7 @@
 (custom-theme-set-variables
  'mytheme
  '(ansi-color-names-vector ["#272822" "#F92672" "#A6E22E" "#E6DB74" "#66D9EF" "#FD5FF0" "#A1EFE4" "#F8F8F2"])
+ '(ansi-color-faces-vector [default default default italic underline success warning error])
  '(compilation-message-face (quote default))
  '(fci-rule-color "#49483E"))
 
