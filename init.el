@@ -512,31 +512,6 @@ enter missing field manually."
 
 (require 'workspace)
 
-(defun my-compile ()
-  (interactive)
-  (save-window-excursion
-    (let ((command (completing-read "Compile: " compile-history nil nil nil)))
-      (compile command))))
-
-(add-hook 'compilation-start-hook
-	  (lambda (process)
-	    (let ((delete-duplicates-save history-delete-duplicates))
-	      (setq history-delete-duplicates t)
-	      (add-to-history 'compile-history command)
-	      (setq history-delete-duplicates delete-duplicates-save))))
-
-(setq compilation-scroll-output 'first-error)
-
-(add-to-list 'compilation-finish-functions
-	     (lambda (buf str)
-	       (if (string-match "exited abnormally" str)
-		   (message "compilation errors, press C-x ` to visit")
-		 (run-at-time 0.5 nil
-			      (lambda (x)
-				(kill-buffer x))buf)
-		 (message "NO COMPILATION ERRORS!"))))
-
-(require 'make)
 (require 'build)
 
       

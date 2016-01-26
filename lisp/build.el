@@ -1,5 +1,6 @@
 
 (require 'projectile)
+(require 'compile)
 
 (defvar build-target-use-current-buffer-as-hint nil)
 
@@ -50,5 +51,39 @@
     (message "%s" target)
     (let ((command (concat "make" (build-target-dir-args) " " target)))
       (compile command))))
+
+(defun build ()
+  (interactive)
+  (save-window-excursion
+    (let ((command (completing-read "Compile: " compile-history nil nil nil)))
+      (compile command))))
+
+(defun build-compilation-start-hook (process)
+  (let ((delete-duplicates-save history-delete-duplicates))
+    (setq history-delete-duplicates t)
+    (add-to-history 'compile-history command)
+    (setq history-delete-duplicates delete-duplicates-save)))
+
+
+(defun build-compilation-finish-handle-error ()
+  (delete-other-windows)
+  (switch-to-buffer "*compilation*")
+  (first-error))
+
+(defun build-compilation-finish (buffer string)
+  (if (and
+       (string-match "compilation" (buffer-name buffer))
+       (string-match "finished" string)
+       (not
+	(with-current-buffer buffer
+	  (goto-char 1)
+	  (search-forward "warning" nil t))))
+      (message (propertize "Compilation successful" 'face 'success))
+    (build-compilation-finish-handle-error)))
+
+(with-eval-after-load "compile"
+  (add-hook 'compilation-finish-functions 'build-compilation-finish)
+  (add-hook 'compilation-start-hook 'build-compilation-start-hook)
+  (setq compilation-scroll-output 'first-error))
 
 (provide 'build)
