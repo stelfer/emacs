@@ -171,6 +171,7 @@
 
 (add-hook 'prog-mode-hook
 	  (lambda()
+	    (auto-insert-mode t)
 	    (linum-mode t)
 	    (local-set-key (kbd "C-c") 'my-prog-mode-map)))
 
