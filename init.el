@@ -231,10 +231,9 @@
 inserted before current line. It uses yasnippet to let the user
 enter missing field manually."
   (interactive)
-  (when (or (not (rtags-called-interactively-p)) (rtags-sandbox-id-matches))
-    (save-some-buffers) ;; it all kinda falls apart when buffers are unsaved
-    (let ((symbol (rtags-symbol-info-internal)))
-      (unless symbol
+  (save-some-buffers) ;; it all kinda falls apart when buffers are unsaved
+  (let ((symbol (rtags-symbol-info-internal)))
+    (unless symbol
         (error "Can't find symbol here"))
       (let* ((type (cdr (assoc 'type symbol)))
              (return-val (and (string-match "^\\([^)]*\\) (.*" type)
@@ -260,7 +259,11 @@ enter missing field manually."
                                         return-val index))
                               "\n */\n")))
         (back-to-indentation)
-        (yas-expand-snippet snippet (point) (point) nil)))))
+	(let ((yas-indent-line)))
+        (yas-expand-snippet snippet (point-min) (point-max) nil))))
+
+
+
 
 
 
