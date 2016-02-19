@@ -3,7 +3,8 @@
 ;;
 ;;
 
-(menu-bar-mode -1) ;; keep the bar from showing up ever
+(menu-bar-mode -1)
+; keep the bar from showing up ever
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
@@ -162,6 +163,24 @@
 	      (menu-bar-mode -1))))
 
 
+(require 'ansi-color)
+(add-hook 'compilation-filter-hook (lambda ()
+				     (toggle-read-only)
+				     (ansi-color-apply-on-region compilation-filter-start (point))
+				     (toggle-read-only)))
+
+;; (defun eshell-handle-ansi-color ()
+;;   (ansi-color-apply-on-region eshell-last-output-start
+;; 			      eshell-last-output-end))
+;; (add-to-list 'eshell-output-filter-functions 'eshell-handle-ansi-color)
+
+(ansi-color-for-comint-mode-on)
+
+;; (add-hook 'compilation-filter-hook (lambda ()
+;; 				     (toggle-read-only)
+;; 				     (ansi-color-apply-on-region compilation-filter-start (point))
+;; 				     (toggle-read-only)))
+
 (add-hook 'after-init-hook
 	  (lambda()
 	    (global-company-mode t)
@@ -184,7 +203,6 @@
 	    (c-toggle-hungry-state 1)
 	    (electric-pair-mode 1)
 	    (auto-fill-mode 1)
-
 	    (local-set-key (kbd "C-c") 'my-c-mode-map)
 	    (local-set-key "\C-\M-i" 'helm-projectile-find-other-file)
 	    (local-set-key (kbd "M-.") 'rtags-find-symbol-at-point)
@@ -220,10 +238,8 @@
 		    ("\\<[\\-+]*[0-9]*\\.?[0-9]+\\([ulUL]+\\|[eE][\\-+]?[0-9]+\\)?\\>" . font-lock-constant-face)
 		    ;; user-types (customize!)
 		    ("\\<[A-Za-z_]+[A-Za-z_0-9]*_\\(t\\|type\\|ptr\\)\\>" . font-lock-type-face)
-		    ("\\<\\(xstring\\|xchar\\)\\>" . font-lock-type-face)
-		    ))
+		    ("\\<\\(xstring\\|xchar\\)\\>" . font-lock-type-face)))
 	     ) t)
-
 
 
 (defun my-rtags-create-doxygen-comment ()
@@ -259,8 +275,8 @@ enter missing field manually."
                                         return-val index))
                               "\n */\n")))
         (back-to-indentation)
-	(let ((yas-indent-line)))
-        (yas-expand-snippet snippet (point-min) (point-max) nil))))
+	;; (let ((yas-indent-line t))
+	(yas-expand-snippet snippet (point) (point) nil))))
 
 
 
@@ -555,4 +571,5 @@ enter missing field manually."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(rtags-errline ((t (:background "#ff8080"))))
+ '(rtags-fixitline ((t (:background "#ff8080")))))
