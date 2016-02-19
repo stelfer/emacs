@@ -9,7 +9,7 @@
   (let* ((args (cond
 	       ((projectile-project-p) (concat "-C " (projectile-project-root)))
 	       (t "")))
-	 (command (concat "make " args)))
+	 (command (concat "make " "-j " args)))
     (compile command)))
 
 (defun build-target-from-current ()
