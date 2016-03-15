@@ -1,13 +1,24 @@
+;;
+;; 
+;;
+;;
 
+(menu-bar-mode -1)
+; keep the bar from showing up ever
 
-(require 'package) ;; You might already have this line
+(require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
 
+;;;;
+;;;; Modules and configuration
+;;;;
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (require 'indent-file)
 (require 'saveplace)
 (require 'rtags-echo)
+(require 'workspace)
+(require 'build)
 
 (add-hook 'window-setup-hook
 	  (lambda()
@@ -46,7 +57,6 @@
 
 
 (put 'upcase-region 'disabled nil)
-
 (setq-default save-place t
 	      fill-column 100)
 
@@ -66,37 +76,47 @@
       indent-tabs-mode nil
       comment-auto-fill-only-comments t
       font-lock-maximum-decoration t
-      company-idle-delay 0.5
+      ad-redefinition-action 'accept)
+
+;; company
+(setq company-idle-delay 0.5
       company-minimum-prefix-length 1)
 
-(global-set-key (kbd "s-{") 'previous-buffer)
-(global-set-key (kbd "s-}") 'next-buffer)
-(global-set-key (kbd "s-<") 'beginning-of-buffer)
-(global-set-key (kbd "s->") 'end-of-buffer)
-(global-set-key (kbd "C-x g") 'goto-line)
-(global-set-key (kbd "M-%") 'query-replace-regexp)
-;; (global-set-key (kbd "M-s") 'multi-occur-in-this-mode)
-
-(global-set-key (kbd "C-c C-f") 'helm-projectile-find-file)
-(global-set-key (kbd "C-c C-g") 'helm-projectile-grep)
-(global-set-key "\C-\M-i" 'helm-projectile-find-other-file)
-
-;; (global-set-key (kbd "C-\\")'rtags-find-symbol-at-point)
-
+;; yasnippet
 (require 'yasnippet)
 (yas-reload-all)
-(add-hook 'prog-mode-hook #'yas-minor-mode)
 
-(setq ad-redefinition-action 'accept)
+;; helm
 (require 'helm)
 (require 'helm-config)
 (helm-mode 1)
+(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+      helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+      helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+      helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+      helm-ff-file-name-history-use-recentf t)
+
+(require 'helm-descbinds)
+(helm-descbinds-mode)
+
+;; projectile and helm-projectile
 (projectile-global-mode)
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
 
-;;
-;; Make a custom projectile modeline
+;; eshell
+(setq eshell-where-to-jump 'begin
+      eshell-review-quick-commands nil
+      eshell-smart-space-goes-to-end t)
+
+;; desktop
+(setq desktop-restore-frames t
+      desktop-restore-in-current-display t
+      desktop-restore-forces-onscreen nil)
+
+;;;;
+;;;; Custome modelines
+;;;;
 (defface projectile-mode-line-face '((t (:foreground "#ff1493" :weight normal)))  "Red highlight")
 (setq projectile-mode-line
       '(:propertize 
@@ -105,32 +125,36 @@
       	    " P"
       	  (format " [%s]" (projectile-project-name)))) face projectile-mode-line-face))
 
+
+;;;;
+;;;; Custom keymaps
+;;;;
+(global-set-key (kbd "s-{") 'previous-buffer)
+(global-set-key (kbd "s-}") 'next-buffer)
+(global-set-key (kbd "s-<") 'beginning-of-buffer)
+(global-set-key (kbd "s->") 'end-of-buffer)
+(global-set-key (kbd "C-x g") 'goto-line)
+(global-set-key (kbd "M-%") 'query-replace-regexp)
+(global-set-key (kbd "C-c C-f") 'helm-projectile-find-file)
+(global-set-key (kbd "C-c C-g") 'helm-projectile-grep)
+(global-set-key "\C-\M-i" 'helm-projectile-find-other-file)
+
+;; helm
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
 ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
 (global-set-key (kbd "C-c h") 'helm-command-prefix)
 (global-unset-key (kbd "C-x c"))
 
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-
-;; (when (executable-find "curl")
-;;   (setq helm-google-suggest-use-curl-p t))
-
-(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
-      helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
-      helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
-      helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
-      helm-ff-file-name-history-use-recentf t)
-
-
-;;
-;; Custom keymaps
-;;
+;; prog-mode
 (define-prefix-command 'my-prog-mode-map)
 (define-key my-prog-mode-map (kbd "g") 'magit-status)
 
+;; c-mode
 (define-prefix-command 'my-c-mode-map)
 (define-key my-c-mode-map (kbd "g") 'magit-status)
 (define-key my-c-mode-map (kbd "C-c") 'build)
@@ -145,8 +169,63 @@
 (define-key my-c-mode-map (kbd "C-i t") 'rtags-symbol-type)
 (define-key my-c-mode-map (kbd "C-i d") 'rtags-dependency-tree)
 
+;;;;
+;;;; Hooks
+;;;;
+(add-hook 'window-setup-hook
+	  (lambda()
+	    ;; Blank the terminal background, so themes will work nicely
+	    (unless (display-graphic-p (selected-frame))
+	      (set-face-background 'default "unspecified-bg" (selected-frame)))
+
+	    ;; Setup anything using a windows-system
+	    (unless window-system
+	      (require 'mouse)
+	      (xterm-mouse-mode t)
+	      (global-set-key [mouse-4] '(lambda ()
+					   (interactive)
+					   (scroll-down 1)))
+	      (global-set-key [mouse-5] '(lambda ()
+					   (interactive)
+					   (scroll-up 1)))
+	      (defun track-mouse (e))
+	      (setq mouse-sel-mode t)
+	      (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+	      (setq mouse-wheel-progressive-speed nil)		  ;; don't accelerate scrolling
+	      (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+	      (setq scroll-step 1)		 ;; keyboard scroll one line at a tim
+	      (tool-bar-mode -1)
+	      (menu-bar-mode -1))))
+
+
+(require 'ansi-color)
+(add-hook 'compilation-filter-hook (lambda ()
+				     (toggle-read-only)
+				     (ansi-color-apply-on-region compilation-filter-start (point))
+				     (toggle-read-only)))
+
+;; (defun eshell-handle-ansi-color ()
+;;   (ansi-color-apply-on-region eshell-last-output-start
+;; 			      eshell-last-output-end))
+;; (add-to-list 'eshell-output-filter-functions 'eshell-handle-ansi-color)
+
+(ansi-color-for-comint-mode-on)
+
+;; (add-hook 'compilation-filter-hook (lambda ()
+;; 				     (toggle-read-only)
+;; 				     (ansi-color-apply-on-region compilation-filter-start (point))
+;; 				     (toggle-read-only)))
+
+(add-hook 'after-init-hook
+	  (lambda()
+	    (global-company-mode t)
+	    (global-font-lock-mode t)))
+
+(add-hook 'prog-mode-hook #'yas-minor-mode)
+
 (add-hook 'prog-mode-hook
 	  (lambda()
+	    (auto-insert-mode t)
 	    (linum-mode t)
 	    (local-set-key (kbd "C-c") 'my-prog-mode-map)))
 
@@ -159,7 +238,6 @@
 	    (c-toggle-hungry-state 1)
 	    (electric-pair-mode 1)
 	    (auto-fill-mode 1)
-
 	    (local-set-key (kbd "C-c") 'my-c-mode-map)
 	    (local-set-key "\C-\M-i" 'helm-projectile-find-other-file)
 	    (local-set-key (kbd "M-.") 'rtags-find-symbol-at-point)
@@ -195,10 +273,54 @@
 		    ("\\<[\\-+]*[0-9]*\\.?[0-9]+\\([ulUL]+\\|[eE][\\-+]?[0-9]+\\)?\\>" . font-lock-constant-face)
 		    ;; user-types (customize!)
 		    ("\\<[A-Za-z_]+[A-Za-z_0-9]*_\\(t\\|type\\|ptr\\)\\>" . font-lock-type-face)
-		    ("\\<\\(xstring\\|xchar\\)\\>" . font-lock-type-face)
-		    ))
+		    ("\\<\\(xstring\\|xchar\\)\\>" . font-lock-type-face)))
 	     ) t)
 
+
+(defun my-rtags-create-doxygen-comment ()
+  "Creates doxygen comment for function at point Comment will be
+inserted before current line. It uses yasnippet to let the user
+enter missing field manually."
+  (interactive)
+  (save-some-buffers) ;; it all kinda falls apart when buffers are unsaved
+  (let ((symbol (rtags-symbol-info-internal)))
+    (unless symbol
+        (error "Can't find symbol here"))
+      (let* ((type (cdr (assoc 'type symbol)))
+             (return-val (and (string-match "^\\([^)]*\\) (.*" type)
+                              (match-string 1 type)))
+             ;;           (args (mapcar (lambda (arg) (cdr (assoc 'symbolName arg))) (cdr (assoc 'arguments symbol))))
+             (index 2)
+             (snippet (concat "/** @Brief ${1:Function description}\n"
+                              (mapconcat (lambda (arg)
+                                           (let* ((complete-name (cdr (assoc 'symbolName arg)))
+                                                  (symbol-type (cdr (assoc 'type arg)))
+                                                  (symbol-name (substring complete-name (- 0 (cdr (assoc 'symbolLength arg)))))
+                                                  (ret (format " * @param %s <b>{%s}</b> ${%d:Parameter description}"
+                                                               symbol-name symbol-type index)))
+                                             (incf index)
+                                             ret))
+                                         (cdr (assoc 'arguments symbol))
+                                         "\n")
+                              (unless (string= return-val "void")
+                                (format "%s * @return <b>{%s}</b> ${%d:Return value description}\n"
+                                        (if (eq index 2)
+                                            ""
+                                          "\n")
+                                        return-val index))
+                              "\n */\n")))
+        (back-to-indentation)
+	;; (let ((yas-indent-line t))
+	(yas-expand-snippet snippet (point) (point) nil))))
+
+
+
+
+
+
+      
+(defun rtags-load-database (dir)
+  (rtags-call-rc "-J" dir))
 
 
 (custom-set-variables
@@ -313,4 +435,5 @@ enter missing field manually."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(rtags-errline ((t (:background "#ff8080"))))
+ '(rtags-fixitline ((t (:background "#ff8080")))))

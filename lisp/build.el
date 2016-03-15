@@ -9,7 +9,7 @@
   (let* ((args (cond
 	       ((projectile-project-p) (concat "-C " (projectile-project-root)))
 	       (t "")))
-	 (command (concat "make " args)))
+	 (command (concat "make " "-j " args)))
     (compile command)))
 
 (defun build-target-from-current ()
@@ -58,8 +58,11 @@
     (let ((command (completing-read "Compile: " compile-history nil nil nil)))
       (compile command))))
 
+(defvar build-compilation-progress-reporter nil)
+
 (defun build-compilation-start-hook (process)
   (let ((delete-duplicates-save history-delete-duplicates))
+    (setq build-compilation-progress-reporter (make-progress-reporter "Compiling..." 0 100))
     (setq history-delete-duplicates t)
     (add-to-history 'compile-history command)
     (setq history-delete-duplicates delete-duplicates-save)))
@@ -71,15 +74,17 @@
   (first-error))
 
 (defun build-compilation-finish (buffer string)
-  (if (and
-       (string-match "compilation" (buffer-name buffer))
-       (string-match "finished" string)
-       (not
-	(with-current-buffer buffer
-	  (goto-char 1)
-	  (search-forward "warning" nil t))))
-      (message (propertize "Compilation successful" 'face 'success))
-    (build-compilation-finish-handle-error)))
+  (progn
+    (progress-reporter-done build-compilation-progress-reporter)
+    (if (and
+	 (string-match "compilation" (buffer-name buffer))
+	 (string-match "finished" string)
+	 (not
+	  (with-current-buffer buffer
+	    (goto-char 1)
+	    (search-forward "warning" nil t))))
+	(message (propertize "Compilation successful" 'face 'success))
+      (build-compilation-finish-handle-error))))
 
 (with-eval-after-load "compile"
   (add-hook 'compilation-finish-functions 'build-compilation-finish)
