@@ -32,7 +32,11 @@
 	      (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 	      (setq scroll-step 1)		 ;; keyboard scroll one line at a tim
 					;  (tool-bar-mode -1)
-	      (menu-bar-mode -1))))
+	      (menu-bar-mode -1))
+
+	    (when window-system
+	      (scroll-bar-mode -1))))
+
 
 (add-hook 'after-init-hook
 	  (lambda()
