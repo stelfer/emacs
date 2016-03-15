@@ -35,6 +35,7 @@
 	      (menu-bar-mode -1))
 
 	    (when window-system
+	      (windmove-default-keybindings)
 	      (scroll-bar-mode -1))))
 
 
