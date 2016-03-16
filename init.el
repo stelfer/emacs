@@ -26,6 +26,8 @@
 	    (unless (display-graphic-p (selected-frame))
 	      (set-face-background 'default "unspecified-bg" (selected-frame)))
 
+	    (setq visible-bell nil)
+	    
 	    ;; Setup anything using a windows-system
 	    (unless window-system
 	      (require 'mouse)
@@ -46,6 +48,7 @@
 	      (menu-bar-mode -1))
 
 	    (when window-system
+	      (tool-bar-mode -1)
 	      (windmove-default-keybindings)
 	      (scroll-bar-mode -1))))
 
