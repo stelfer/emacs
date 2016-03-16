@@ -251,6 +251,11 @@
 	    (rtags-diagnostics)
 	    (rtags-echo-mode 1)
 	    (setq rtags-completions-enabled t)
+
+	    (add-hook 'before-save-hook (lambda ()
+					  (when (or (eq major-mode 'c++-mode) (eq major-mode 'c-mode))
+					    (clang-format-buffer))))
+	    
 	    (add-to-list 'company-backends 'company-rtags)
 
 	    (setq company-frontends '(company-pseudo-tooltip-unless-just-one-frontend company-preview-if-just-one-frontend company-echo-metadata-frontend company-preview-frontend))
