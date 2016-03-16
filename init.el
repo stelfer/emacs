@@ -93,11 +93,28 @@
 (require 'helm)
 (require 'helm-config)
 (helm-mode 1)
-(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+(setq helm-split-window-in-side-p           nil
       helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
       helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
       helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
       helm-ff-file-name-history-use-recentf t)
+
+(defun my-helm-split-window (window)
+  (if (one-window-p t)
+      ;; With just window helm does the right thing
+      (split-window
+       (selected-window) nil (if (eq helm-split-window-default-side 'other)
+                                 'below helm-split-window-default-side))
+
+    ;; If there are multiple windows, select the bottom-left window
+    (while (window-in-direction 'left)
+      (select-window (window-in-direction 'left)))
+    (while (window-in-direction 'below)
+      (select-window (window-in-direction 'below)))
+
+    (selected-window)))
+(setq helm-split-window-preferred-function #'my-helm-split-window)
+
 
 (require 'helm-descbinds)
 (helm-descbinds-mode)
