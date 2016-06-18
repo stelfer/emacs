@@ -264,7 +264,8 @@
 	    (local-set-key (kbd "M-,") 'rtags-location-stack-back)
 	    (local-set-key (kbd "M-/") 'rtags-location-stack-forward)
 	    (local-set-key (quote [f5]) 'recompile)
-	    
+
+	    (set-fill-column  80)
 	    (highlight-symbol-mode 1)
 	    (add-to-list 'c-doc-comment-style '(c++-mode . javadoc))
 	    (setq rtags-autostart-diagnostics t)
@@ -354,6 +355,7 @@ enter missing field manually."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
+ '(column-number-mode t)
  '(compilation-message-face (quote default))
  '(custom-safe-themes
    (quote
@@ -455,6 +457,9 @@ enter missing field manually."
 (defun rtags-load-database (dir)
   (rtags-call-rc "-J" dir))
 
+
+(setq ns-pop-up-frames nil)
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -462,3 +467,10 @@ enter missing field manually."
  ;; If there is more than one, they won't work right.
  '(rtags-errline ((t (:background "#ff8080"))))
  '(rtags-fixitline ((t (:background "#ff8080")))))
+
+(setq gdb-many-windows t)
+(setq gdb-show-main t)
+(setq gdb-show-changed-values t)
+(setq gdb-use-separate-io-buffer nil)
+(setq gdb-delete-out-of-scope t)
+
